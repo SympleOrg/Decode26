@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.commands.mecanumDrive.MecanumArcadeDriveCommand;
+import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.util.TeamColor;
 import org.firstinspires.ftc.teamcode.util.controlcommands.ActuatorCommands;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.util.opModes.SympleCommandOpMode;
 public class TeleOpRobotController extends RobotControllerBase {
     private final MecanumDriveSubsystem mecanumDriveSubsystem;
     private final IntakeSubsystem intakeSubsystem;
+    private final GateSubsystem gateSubsystem;
 
     private final DriverCommands driverCommands;
     private final ActuatorCommands actuatorCommands;
@@ -30,16 +32,19 @@ public class TeleOpRobotController extends RobotControllerBase {
         }
 
         this.mecanumDriveSubsystem = new MecanumDriveSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
-        this.intakeSubsystem = new IntakeSubsystem(this.getHardwareMap());
+        this.intakeSubsystem = new IntakeSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
+        this.gateSubsystem = new GateSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
 
         this.driverCommands = new DriverCommands(
                 this.mecanumDriveSubsystem,
-                this.intakeSubsystem
+                this.intakeSubsystem,
+                this.gateSubsystem
         );
 
         this.actuatorCommands = new ActuatorCommands(
                 this.mecanumDriveSubsystem,
-                this.intakeSubsystem
+                this.intakeSubsystem,
+                this.gateSubsystem
         );
     }
 

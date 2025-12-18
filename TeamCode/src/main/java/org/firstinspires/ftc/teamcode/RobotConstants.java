@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
+import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
+
 /**
  * Contains all robot-wide constants for the robot.
  */
@@ -53,6 +55,24 @@ public class RobotConstants {
 
             public double getSpeedModifier() {
                 return modifier;
+            }
+        }
+    }
+
+    public static class GateConstants {
+        public enum GateState implements StateSubsystemBase.StateBase<Double> {
+            OPEN(0),
+            CLOSE(90);
+
+            private final double deg;
+
+            GateState(double deg) {
+                this.deg = deg;
+            }
+
+            @Override
+            public Double getUnit() {
+                return this.deg;
             }
         }
     }
