@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.commands.mecanumDrive.MecanumArcadeDriveCommand;
+import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.util.TeamColor;
 import org.firstinspires.ftc.teamcode.util.controlcommands.ActuatorCommands;
 import org.firstinspires.ftc.teamcode.util.controlcommands.DriverCommands;
@@ -13,6 +15,7 @@ import org.firstinspires.ftc.teamcode.util.opModes.SympleCommandOpMode;
 
 public class TeleOpRobotController extends RobotControllerBase {
     private final MecanumDriveSubsystem mecanumDriveSubsystem;
+    private final IntakeSubsystem intakeSubsystem;
 
     private final DriverCommands driverCommands;
     private final ActuatorCommands actuatorCommands;
@@ -20,26 +23,33 @@ public class TeleOpRobotController extends RobotControllerBase {
     private TeleOpRobotController(HardwareMap hMap, Telemetry telemetry, Gamepad driverController, Gamepad actionController, TeamColor teamColor, String logFilePrefix, boolean logData) {
         super(hMap, telemetry, driverController, actionController, logFilePrefix, logData);
 
-        if(teamColor == null) {
+        if (teamColor == null) {
             RuntimeException exception = new RuntimeException("Team color cannot be null!");
             this.getDataLogger().addThrowable(exception);
             throw exception;
         }
 
         this.mecanumDriveSubsystem = new MecanumDriveSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
+        this.intakeSubsystem = new IntakeSubsystem(this.getHardwareMap());
 
         this.driverCommands = new DriverCommands(
-                this.mecanumDriveSubsystem
+                this.mecanumDriveSubsystem,
+                this.intakeSubsystem
         );
 
         this.actuatorCommands = new ActuatorCommands(
-                this.mecanumDriveSubsystem
+                this.mecanumDriveSubsystem,
+                this.intakeSubsystem
         );
     }
 
     @Override
     public void createKeyBindings() {
-
+        this.actionController.getGamepadButton(GamepadKeys.Button.X)
+                .toggleWhenPressed(
+                        this.actuatorCommands.startIntake(),
+                        this.actuatorCommands.stopIntake()
+                );
     }
 
     @Override
