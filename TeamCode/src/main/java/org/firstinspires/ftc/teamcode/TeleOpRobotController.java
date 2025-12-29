@@ -30,7 +30,7 @@ public class TeleOpRobotController extends RobotControllerBase {
         }
 
         this.mecanumDriveSubsystem = new MecanumDriveSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
-        this.intakeSubsystem = new IntakeSubsystem(this.getHardwareMap());
+        this.intakeSubsystem = new IntakeSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
 
         this.driverCommands = new DriverCommands(
                 this.mecanumDriveSubsystem,
