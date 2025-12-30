@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.util.subsystem;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.ConditionalCommand;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
@@ -64,8 +65,8 @@ public abstract class StateSubsystemBase<T extends StateSubsystemBase.StateBase<
      * @return a command that applies the state transition
      */
     public final Command goToState(T state, Subsystem... requirements) {
-        this.setState(state);
-        return this.getChangeStateCommand(state, requirements);
+        return new InstantCommand(() -> this.setState(state), this)
+                .andThen(this.getChangeStateCommand(state, requirements));
     }
 
     /**
