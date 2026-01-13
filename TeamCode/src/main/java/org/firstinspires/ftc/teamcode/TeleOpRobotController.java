@@ -55,6 +55,12 @@ public class TeleOpRobotController extends RobotControllerBase {
                         this.actuatorCommands.startIntake(),
                         this.actuatorCommands.stopIntake()
                 );
+
+        this.actionController.getGamepadButton(GamepadKeys.Button.Y)
+                .toggleWhenPressed(
+                        this.actuatorCommands::storageGoToShooter,
+                        this.actuatorCommands::storageGoToIntake
+                );
     }
 
     @Override

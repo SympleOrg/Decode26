@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
 import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
@@ -77,9 +78,14 @@ public class RobotConstants {
         }
     }
 
+    @Config
     public static class StorageConstants {
+        public static double kP = 0.025;
+        public static double kI = 0.0001;
+        public static double kD = 0.002;
+
         public enum StorageState implements StateSubsystemBase.StateBase<Double> {
-            SHOOTER(37),
+            SHOOTER(38),
             INTAKE(0);
 
             private final double deg;
