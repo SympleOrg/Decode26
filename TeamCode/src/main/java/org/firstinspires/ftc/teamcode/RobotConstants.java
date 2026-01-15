@@ -99,6 +99,23 @@ public class RobotConstants {
                 return this.deg;
             }
         }
+    }
 
+    public static class GateConstants {
+        public enum GateState implements StateSubsystemBase.StateBase<Double> {
+            ZERO(0),
+            PUSH(120);
+
+            private final double deg;
+
+            GateState(double deg) {
+                this.deg = deg;
+            }
+
+            @Override
+            public Double getUnit() {
+                return this.deg;
+            }
+        }
     }
 }
