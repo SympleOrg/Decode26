@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.util.controlcommands;
 
 import com.arcrobotics.ftclib.command.Command;
 
+import org.firstinspires.ftc.teamcode.RobotConstants.GateConstants;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
@@ -25,5 +26,12 @@ public class ActuatorCommands {
 
     public Command stopIntake() {
         return this.intakeSubsystem.stopIntake();
+    }
+
+    public void pushTheBall() {
+        this.gateSubsystem.goToState(GateConstants.GateState.PUSH).schedule();
+    }
+    public void returnToZero(){
+        this.gateSubsystem.goToState(GateConstants.GateState.ZERO).schedule();
     }
 }

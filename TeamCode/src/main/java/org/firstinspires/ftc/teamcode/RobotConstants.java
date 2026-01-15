@@ -61,8 +61,8 @@ public class RobotConstants {
 
     public static class GateConstants {
         public enum GateState implements StateSubsystemBase.StateBase<Double> {
-            OPEN(0),
-            CLOSE(90);
+            ZERO(0),
+            PUSH(120);
 
             private final double deg;
 

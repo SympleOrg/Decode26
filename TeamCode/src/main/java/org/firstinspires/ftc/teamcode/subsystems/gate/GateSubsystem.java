@@ -20,7 +20,7 @@ public class GateSubsystem extends StateSubsystemBase<GateConstants.GateState> i
     private final DataLogger dataLogger;
 
     public GateSubsystem(HardwareMap hardwareMap, MultipleTelemetry telemetry, DataLogger dataLogger) {
-        super(GateConstants.GateState.OPEN);
+        super(GateConstants.GateState.ZERO);
 
         this.dataLogger = dataLogger;
         this.telemetry = telemetry;
