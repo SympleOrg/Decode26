@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsyste
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.commands.mecanumDrive.MecanumArcadeDriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
 import org.firstinspires.ftc.teamcode.util.TeamColor;
 import org.firstinspires.ftc.teamcode.util.controlcommands.ActuatorCommands;
 import org.firstinspires.ftc.teamcode.util.controlcommands.DriverCommands;
@@ -18,6 +19,7 @@ public class TeleOpRobotController extends RobotControllerBase {
     private final MecanumDriveSubsystem mecanumDriveSubsystem;
     private final IntakeSubsystem intakeSubsystem;
     private final GateSubsystem gateSubsystem;
+    private final StorageSubsystem storageSubsystem;
 
     private final DriverCommands driverCommands;
     private final ActuatorCommands actuatorCommands;
@@ -33,17 +35,20 @@ public class TeleOpRobotController extends RobotControllerBase {
 
         this.mecanumDriveSubsystem = new MecanumDriveSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
         this.intakeSubsystem = new IntakeSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
+        this.storageSubsystem = new StorageSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
         this.gateSubsystem = new GateSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
 
         this.driverCommands = new DriverCommands(
                 this.mecanumDriveSubsystem,
                 this.intakeSubsystem,
-                this.gateSubsystem
+                this.gateSubsystem,
+                this.storageSubsystem
         );
 
         this.actuatorCommands = new ActuatorCommands(
                 this.mecanumDriveSubsystem,
                 this.intakeSubsystem,
+                this.storageSubsystem,
                 this.gateSubsystem
         );
     }
@@ -54,6 +59,12 @@ public class TeleOpRobotController extends RobotControllerBase {
                 .toggleWhenPressed(
                         this.actuatorCommands.startIntake(),
                         this.actuatorCommands.stopIntake()
+                );
+
+        this.actionController.getGamepadButton(GamepadKeys.Button.Y)
+                .toggleWhenPressed(
+                        this.actuatorCommands::storageGoToShooter,
+                        this.actuatorCommands::storageGoToIntake
                 );
 
         this.actionController.getGamepadButton(GamepadKeys.Button.B)
