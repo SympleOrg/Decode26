@@ -31,7 +31,8 @@ public class ActuatorCommands {
     public void pushTheBall() {
         this.gateSubsystem.goToState(GateConstants.GateState.PUSH).schedule();
     }
-    public void returnToZero(){
+
+    public void returnToZero() {
         this.gateSubsystem.goToState(GateConstants.GateState.ZERO).schedule();
     }
 }
