@@ -16,14 +16,14 @@ import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
 public class ActuatorCommands {
     private final MecanumDriveSubsystem mecanumDriveSubsystem;
     private final IntakeSubsystem intakeSubsystem;
-    private final StorageSubsystem storageSubsystem;
     private final GateSubsystem gateSubsystem;
+    private final StorageSubsystem storageSubsystem;
 
-    public ActuatorCommands(MecanumDriveSubsystem mecanumDriveSubsystem, IntakeSubsystem intakeSubsystem, StorageSubsystem storageSubsystem, GateSubsystem gateSubsystem) {
+    public ActuatorCommands(MecanumDriveSubsystem mecanumDriveSubsystem, IntakeSubsystem intakeSubsystem, GateSubsystem gateSubsystem, StorageSubsystem storageSubsystem) {
         this.mecanumDriveSubsystem = mecanumDriveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
-        this.storageSubsystem = storageSubsystem;
         this.gateSubsystem = gateSubsystem;
+        this.storageSubsystem = storageSubsystem;
     }
 
     // Commands here /ᐠ｡ꞈ｡ᐟ\

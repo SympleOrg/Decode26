@@ -48,8 +48,8 @@ public class TeleOpRobotController extends RobotControllerBase {
         this.actuatorCommands = new ActuatorCommands(
                 this.mecanumDriveSubsystem,
                 this.intakeSubsystem,
-                this.storageSubsystem,
-                this.gateSubsystem
+                this.gateSubsystem,
+                this.storageSubsystem
         );
     }
 
