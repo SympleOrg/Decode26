@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.RobotConstants.GateConstants;
 import org.firstinspires.ftc.teamcode.RobotConstants.StorageConstants;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
 
@@ -19,7 +18,12 @@ public class ActuatorCommands {
     private final GateSubsystem gateSubsystem;
     private final StorageSubsystem storageSubsystem;
 
-    public ActuatorCommands(MecanumDriveSubsystem mecanumDriveSubsystem, IntakeSubsystem intakeSubsystem, GateSubsystem gateSubsystem, StorageSubsystem storageSubsystem) {
+    public ActuatorCommands(
+            MecanumDriveSubsystem mecanumDriveSubsystem,
+            IntakeSubsystem intakeSubsystem,
+            GateSubsystem gateSubsystem,
+            StorageSubsystem storageSubsystem
+    ) {
         this.mecanumDriveSubsystem = mecanumDriveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.gateSubsystem = gateSubsystem;

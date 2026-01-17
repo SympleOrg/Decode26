@@ -35,16 +35,6 @@ public class RobotConstants {
         public static final double WHEELS_DISTANCE = 0.207;
 
         /**
-         * Meters traveled per wheel revolution.
-         */
-        public static final double METERS_PER_REV = (Math.PI * 2) * WHEEL_RADIUS;
-
-        /**
-         * Meters traveled per encoder tick.
-         */
-        public static final double METERS_PER_TICK = (METERS_PER_REV / (TICKS_PER_REV * GEAR_RATIO));
-
-        /**
          * Feedforward constant (Ks)
          */
         public static final double Ks = 0;

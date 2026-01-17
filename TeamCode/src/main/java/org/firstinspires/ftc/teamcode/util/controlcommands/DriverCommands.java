@@ -11,7 +11,12 @@ public class DriverCommands {
     private final GateSubsystem gateSubsystem;
     private final StorageSubsystem storageSubsystem;
 
-    public DriverCommands(MecanumDriveSubsystem mecanumDriveSubsystem, IntakeSubsystem intakeSubsystem, GateSubsystem gateSubsystem, StorageSubsystem storageSubsystem) {
+    public DriverCommands(
+            MecanumDriveSubsystem mecanumDriveSubsystem,
+            IntakeSubsystem intakeSubsystem,
+            GateSubsystem gateSubsystem,
+            StorageSubsystem storageSubsystem
+    ) {
         this.mecanumDriveSubsystem = mecanumDriveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.gateSubsystem = gateSubsystem;
