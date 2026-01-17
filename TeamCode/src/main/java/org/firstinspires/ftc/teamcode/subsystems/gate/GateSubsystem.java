@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems.gate;
 
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.telemetry.JoinedTelemetry;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.Subsystem;
@@ -16,10 +16,10 @@ import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
 public class GateSubsystem extends StateSubsystemBase<GateConstants.GateState> implements LoggerSubsystem {
 
     private final SympleServo servo;
-    private final MultipleTelemetry telemetry;
+    private final JoinedTelemetry telemetry;
     private final DataLogger dataLogger;
 
-    public GateSubsystem(HardwareMap hardwareMap, MultipleTelemetry telemetry, DataLogger dataLogger) {
+    public GateSubsystem(HardwareMap hardwareMap, JoinedTelemetry telemetry, DataLogger dataLogger) {
         super(GateConstants.GateState.ZERO);
 
         this.dataLogger = dataLogger;
@@ -37,7 +37,7 @@ public class GateSubsystem extends StateSubsystemBase<GateConstants.GateState> i
     }
 
     @Override
-    public MultipleTelemetry getTelemetry() {
+    public JoinedTelemetry getTelemetry() {
         return this.telemetry;
     }
 

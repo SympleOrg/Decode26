@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems.intake;
 
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.bylazar.telemetry.JoinedTelemetry;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.RunCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
@@ -12,12 +12,12 @@ import org.firstinspires.ftc.teamcode.util.DataLogger;
 import org.firstinspires.ftc.teamcode.util.subsystem.LoggerSubsystem;
 
 public class IntakeSubsystem extends SubsystemBase implements LoggerSubsystem {
-    private final MultipleTelemetry telemetry;
+    private final JoinedTelemetry telemetry;
     private final DataLogger dataLogger;
 
     private final MotorEx motor;
 
-    public IntakeSubsystem(HardwareMap hardwareMap, MultipleTelemetry telemetry, DataLogger dataLogger) {
+    public IntakeSubsystem(HardwareMap hardwareMap, JoinedTelemetry telemetry, DataLogger dataLogger) {
         this.telemetry = telemetry;
         this.dataLogger = dataLogger;
         this.motor = new MotorEx(hardwareMap, MotorMap.INTAKE.getId());
@@ -37,7 +37,7 @@ public class IntakeSubsystem extends SubsystemBase implements LoggerSubsystem {
     }
 
     @Override
-    public MultipleTelemetry getTelemetry() {
+    public JoinedTelemetry getTelemetry() {
         return this.telemetry;
     }
 
