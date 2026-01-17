@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.dashboard.config.Config;
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.configurables.annotations.Sorter;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
 import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
@@ -68,11 +69,11 @@ public class RobotConstants {
         }
     }
 
-    @Config
+    @Configurable
     public static class StorageConstants {
-        public static double kP = 0.025;
-        public static double kI = 0.0001;
-        public static double kD = 0.002;
+        @Sorter(sort = 1) public static double kP = 0.025;
+        @Sorter(sort = 2) public static double kI = 0.0001;
+        @Sorter(sort = 3) public static double kD = 0.002;
 
         public enum StorageState implements StateSubsystemBase.StateBase<Double> {
             SHOOTER(38),

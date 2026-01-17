@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems.storage;
 
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.Subsystem;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.seattlesolvers.solverslib.command.Command;
+import com.seattlesolvers.solverslib.command.Subsystem;
+import com.seattlesolvers.solverslib.hardware.motors.Motor;
+import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -21,9 +21,9 @@ public class StorageSubsystem extends StateSubsystemBase<StorageConstants.Storag
     private final MotorEx motorEx;
     private final TouchSensor touchSensor;
     private final DataLogger dataLogger;
-    private final MultipleTelemetry telemetry;
+    private final JoinedTelemetry telemetry;
 
-    public StorageSubsystem(HardwareMap hardwareMap, MultipleTelemetry telemetry, DataLogger dataLogger) {
+    public StorageSubsystem(HardwareMap hardwareMap, JoinedTelemetry telemetry, DataLogger dataLogger) {
         super(StorageConstants.StorageState.INTAKE);
 
         this.motorEx = new MotorEx(hardwareMap, MotorMap.STORAGE.getId());
@@ -61,7 +61,7 @@ public class StorageSubsystem extends StateSubsystemBase<StorageConstants.Storag
     }
 
     @Override
-    public MultipleTelemetry getTelemetry() {
+    public JoinedTelemetry getTelemetry() {
         return this.telemetry;
     }
 
