@@ -2,7 +2,7 @@ repositories {
     mavenCentral()
     google() // Needed for androidx
     maven { url = 'https://maven.brott.dev/' }
-    maven { url = "https://Symple25125:ghp_${new String("ozADyfsgVNxC2ujphTXAiEMPwQkUdR4LmPha")}@maven.pkg.github.com/SympleOrg/SympleGraphDisplay" }
+    maven { url = "https://repo.dairy.foundation/releases" }
 }
 
 dependencies {

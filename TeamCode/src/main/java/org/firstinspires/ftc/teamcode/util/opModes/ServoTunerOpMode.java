@@ -3,13 +3,12 @@ package org.firstinspires.ftc.teamcode.util.opModes;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.seattlesolvers.solverslib.command.CommandOpMode;
+import com.seattlesolvers.solverslib.command.InstantCommand;
+import com.seattlesolvers.solverslib.gamepad.GamepadEx;
+import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.maps.ServoMap;
 import org.firstinspires.ftc.teamcode.util.SympleServo;
 
@@ -87,10 +86,10 @@ public class ServoTunerOpMode extends CommandOpMode {
     }
 
     private void postInitialize() {
-        servo = new SympleServo(hardwareMap, servoName.getId(), 0, 300, AngleUnit.DEGREES);
+        servo = new SympleServo(hardwareMap, servoName.getId(), 0.0, 300.0);
 
         gamepadEx.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new InstantCommand(() -> servo.turnToAngle(angle)));
+                .whenPressed(new InstantCommand(() -> servo.set(angle)));
     }
 
     @Override
