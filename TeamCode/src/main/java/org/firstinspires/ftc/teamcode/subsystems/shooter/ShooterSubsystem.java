@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystems.shooter;
 
-import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.command.Command;
@@ -14,10 +13,7 @@ import org.firstinspires.ftc.teamcode.util.DataLogger;
 import org.firstinspires.ftc.teamcode.util.subsystem.LoggerSubsystem;
 import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
 
-@Configurable
 public class ShooterSubsystem extends StateSubsystemBase<ShooterConstants.ShooterState> implements LoggerSubsystem {
-    public static double MAX_VELOCITY_OFFSET = -100;
-
     private final MotorEx motorEx;
     private final DataLogger dataLogger;
     private final JoinedTelemetry telemetry;
@@ -40,9 +36,8 @@ public class ShooterSubsystem extends StateSubsystemBase<ShooterConstants.Shoote
         this.motorEx.set(power);
     }
 
-    private boolean isFastEnough() {
-        double maxVelocity = (MotorMap.SHOOTER.getMaxRPM() / 60f) * MotorMap.SHOOTER.getTicksPerRev();
-        return this.motorEx.getCorrectedVelocity() >= maxVelocity + MAX_VELOCITY_OFFSET;
+    public boolean isFastEnough() {
+        return this.motorEx.getCorrectedVelocity() >= ShooterConstants.SHOOT_MIN_VEL;
     }
 
     @Override

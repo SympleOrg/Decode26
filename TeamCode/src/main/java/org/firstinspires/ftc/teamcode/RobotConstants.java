@@ -110,7 +110,10 @@ public class RobotConstants {
         }
     }
 
+    @Configurable
     public static class ShooterConstants {
+        public static double SHOOT_MIN_VEL = 1220;
+
         public enum ShooterState implements StateSubsystemBase.StateBase<Double> {
             SHOOT(0.75),
             OFF(0),

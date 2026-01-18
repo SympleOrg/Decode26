@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.util.controlcommands;
 
 import com.seattlesolvers.solverslib.command.Command;
+import com.seattlesolvers.solverslib.command.ConditionalCommand;
+import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.ParallelCommandGroup;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import com.seattlesolvers.solverslib.command.WaitCommand;
@@ -45,7 +47,11 @@ public class ActuatorCommands {
     }
 
     public Command pushTheBall() {
-        return this.gateSubsystem.goToState(GateConstants.GateState.PUSH);
+        return new ConditionalCommand(
+                this.gateSubsystem.goToState(GateConstants.GateState.PUSH),
+                new InstantCommand(() -> { }),
+                this.shooterSubsystem::isFastEnough
+        );
     }
 
     public Command returnToZero() {

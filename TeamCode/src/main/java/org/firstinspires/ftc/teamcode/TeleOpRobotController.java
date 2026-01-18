@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.seattlesolvers.solverslib.command.button.Trigger;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -83,6 +84,9 @@ public class TeleOpRobotController extends RobotControllerBase {
                         this.actuatorCommands.shooterGoIdle(),
                         this.actuatorCommands.shooterGoShoot()
                 );
+
+        new Trigger(this.shooterSubsystem::isFastEnough)
+                .whenActive(() -> this.actionController.gamepad.rumble(500));
     }
 
     @Override
