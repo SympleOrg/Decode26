@@ -71,7 +71,7 @@ public class RobotConstants {
 
     @Configurable
     public static class StorageConstants {
-        @Sorter(sort = 1) public static double kP = 0.025;
+        @Sorter(sort = 1) public static double kP = 0.03;
         @Sorter(sort = 2) public static double kI = 0.0001;
         @Sorter(sort = 3) public static double kD = 0.002;
 
