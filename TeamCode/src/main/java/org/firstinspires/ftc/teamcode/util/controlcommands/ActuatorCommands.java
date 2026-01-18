@@ -7,9 +7,12 @@ import com.seattlesolvers.solverslib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.RobotConstants.GateConstants;
 import org.firstinspires.ftc.teamcode.RobotConstants.StorageConstants;
+import org.firstinspires.ftc.teamcode.RobotConstants.ShooterConstants;
+import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.shooter.ShooterSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
 
 public class ActuatorCommands {
@@ -17,17 +20,20 @@ public class ActuatorCommands {
     private final IntakeSubsystem intakeSubsystem;
     private final GateSubsystem gateSubsystem;
     private final StorageSubsystem storageSubsystem;
+    private final ShooterSubsystem shooterSubsystem;
 
     public ActuatorCommands(
             MecanumDriveSubsystem mecanumDriveSubsystem,
             IntakeSubsystem intakeSubsystem,
             GateSubsystem gateSubsystem,
-            StorageSubsystem storageSubsystem
+            StorageSubsystem storageSubsystem,
+            ShooterSubsystem shooterSubsystem
     ) {
         this.mecanumDriveSubsystem = mecanumDriveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.gateSubsystem = gateSubsystem;
         this.storageSubsystem = storageSubsystem;
+        this.shooterSubsystem = shooterSubsystem;
     }
 
     // Commands here /ᐠ｡ꞈ｡ᐟ\
@@ -67,6 +73,13 @@ public class ActuatorCommands {
         return new ParallelCommandGroup(
                 this.intakeSubsystem.stopIntake(),
                 this.storageSubsystem.goToState(StorageConstants.StorageState.INTAKE)
+        );
+    }
+
+    public Command toggleShooterMode() {
+        return this.shooterSubsystem.toggleStates(
+                RobotConstants.ShooterConstants.ShooterState.IDLE,
+                RobotConstants.ShooterConstants.ShooterState.SHOOT
         );
     }
 }
