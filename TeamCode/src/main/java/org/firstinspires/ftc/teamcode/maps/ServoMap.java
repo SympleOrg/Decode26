@@ -10,7 +10,8 @@ package org.firstinspires.ftc.teamcode.maps;
  * </pre>
  **/
 public enum ServoMap {
-    ;
+    GATE("gate");
+
     private final String id;
 
     ServoMap(String id) {

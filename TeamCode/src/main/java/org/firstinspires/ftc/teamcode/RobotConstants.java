@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.configurables.annotations.Sorter;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
 import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
@@ -34,16 +36,6 @@ public class RobotConstants {
         public static final double WHEELS_DISTANCE = 0.207;
 
         /**
-         * Meters traveled per wheel revolution.
-         */
-        public static final double METERS_PER_REV = (Math.PI * 2) * WHEEL_RADIUS;
-
-        /**
-         * Meters traveled per encoder tick.
-         */
-        public static final double METERS_PER_TICK = (METERS_PER_REV / (TICKS_PER_REV * GEAR_RATIO));
-
-        /**
          * Feedforward constant (Ks)
          */
         public static final double Ks = 0;
@@ -73,6 +65,47 @@ public class RobotConstants {
 
             public double getSpeedModifier() {
                 return modifier;
+            }
+        }
+    }
+
+    @Configurable
+    public static class StorageConstants {
+        @Sorter(sort = 1) public static double kP = 0.025;
+        @Sorter(sort = 2) public static double kI = 0.0001;
+        @Sorter(sort = 3) public static double kD = 0.002;
+
+        public enum StorageState implements StateSubsystemBase.StateBase<Double> {
+            SHOOTER(38),
+            INTAKE(0);
+
+            private final double deg;
+
+            StorageState(double deg){
+                this.deg = deg;
+            }
+
+            @Override
+            public Double getUnit() {
+                return this.deg;
+            }
+        }
+    }
+
+    public static class GateConstants {
+        public enum GateState implements StateSubsystemBase.StateBase<Double> {
+            ZERO(0),
+            PUSH(120);
+
+            private final double deg;
+
+            GateState(double deg) {
+                this.deg = deg;
+            }
+
+            @Override
+            public Double getUnit() {
+                return this.deg;
             }
         }
     }

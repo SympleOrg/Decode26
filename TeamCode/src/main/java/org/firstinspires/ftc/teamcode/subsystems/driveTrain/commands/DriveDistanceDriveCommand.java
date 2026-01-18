@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode.subsystems.driveTrain.commands;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.controller.PIDFController;
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.JoinedTelemetry;
+import com.seattlesolvers.solverslib.command.CommandBase;
+import com.seattlesolvers.solverslib.controller.PIDFController;
 
 import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.IDriveTrainSubsystem;
 import org.firstinspires.ftc.teamcode.util.DataLogger;
 
-@Config
+@Configurable
 public class DriveDistanceDriveCommand extends CommandBase {
     public static double Kp = 2;
     public static double Ki = 1.5;
@@ -54,7 +54,7 @@ public class DriveDistanceDriveCommand extends CommandBase {
 
         double power = Math.min(Math.max(rawPower, -MAX_POWER), MAX_POWER);
 
-        MultipleTelemetry telemetry = this.subsystem.getTelemetry();
+        JoinedTelemetry telemetry = this.subsystem.getTelemetry();
         telemetry.addData("----", this.getClass().getSimpleName() + " :----");
         telemetry.addData("Current Motor Power", power);
         telemetry.addData("Distance Driven", driveDistance);
