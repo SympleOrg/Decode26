@@ -109,4 +109,23 @@ public class RobotConstants {
             }
         }
     }
+
+    public static class ShooterConstants {
+        public enum ShooterState implements StateSubsystemBase.StateBase<Double> {
+            SHOOT(1),
+            OFF(0),
+            IDLE(0.5);
+
+            private final double power;
+
+            ShooterState(double power) {
+                this.power = power;
+            }
+
+            @Override
+            public Double getUnit() {
+                return this.power;
+            }
+        }
+    }
 }
