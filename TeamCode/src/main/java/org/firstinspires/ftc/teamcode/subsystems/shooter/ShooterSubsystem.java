@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.subsystems.shooter;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.RunCommand;
-import com.arcrobotics.ftclib.command.Subsystem;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.JoinedTelemetry;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.seattlesolvers.solverslib.command.Command;
+import com.seattlesolvers.solverslib.command.RunCommand;
+import com.seattlesolvers.solverslib.command.Subsystem;
+import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.teamcode.RobotConstants.ShooterConstants;
 import org.firstinspires.ftc.teamcode.maps.MotorMap;
@@ -15,15 +14,15 @@ import org.firstinspires.ftc.teamcode.util.DataLogger;
 import org.firstinspires.ftc.teamcode.util.subsystem.LoggerSubsystem;
 import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
 
-@Config
+@Configurable
 public class ShooterSubsystem extends StateSubsystemBase<ShooterConstants.ShooterState> implements LoggerSubsystem {
     public static double MAX_VELOCITY_OFFSET = -100;
 
     private final MotorEx motorEx;
     private final DataLogger dataLogger;
-    private final MultipleTelemetry telemetry;
+    private final JoinedTelemetry telemetry;
 
-    public ShooterSubsystem(HardwareMap hardwareMap, MultipleTelemetry telemetry, DataLogger dataLogger) {
+    public ShooterSubsystem(HardwareMap hardwareMap, JoinedTelemetry telemetry, DataLogger dataLogger) {
         super(ShooterConstants.ShooterState.OFF);
         this.motorEx = new MotorEx(hardwareMap, MotorMap.SHOOTER.getId());
         this.dataLogger = dataLogger;
@@ -52,7 +51,7 @@ public class ShooterSubsystem extends StateSubsystemBase<ShooterConstants.Shoote
     }
 
     @Override
-    public MultipleTelemetry getTelemetry() {
+    public JoinedTelemetry getTelemetry() {
         return this.telemetry;
     }
 

@@ -79,7 +79,9 @@ public class TeleOpRobotController extends RobotControllerBase {
                 );
 
         this.actionController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(this.actuatorCommands.toggleShooterMode());
+                .whenPressed(
+                        this.actuatorCommands.toggleShooterMode()
+                );
     }
 
     @Override

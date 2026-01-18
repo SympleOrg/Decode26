@@ -76,8 +76,8 @@ public class ActuatorCommands {
         );
     }
 
-    public Runnable toggleShooterMode() {
-        return () -> this.shooterSubsystem.toggleStates(
+    public Command toggleShooterMode() {
+        return this.shooterSubsystem.toggleStates(
                 RobotConstants.ShooterConstants.ShooterState.IDLE,
                 RobotConstants.ShooterConstants.ShooterState.SHOOT
         );
