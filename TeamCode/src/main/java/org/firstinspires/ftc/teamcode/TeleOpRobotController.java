@@ -61,6 +61,12 @@ public class TeleOpRobotController extends RobotControllerBase {
 
     @Override
     public void createKeyBindings() {
+        this.driverController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(this.driverCommands::setNormalSpeedMode);
+
+        this.driverController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed(this.driverCommands::setSlowSpeedMode);
+
         this.actionController.getGamepadButton(GamepadKeys.Button.X)
                 .toggleWhenPressed(
                         this.actuatorCommands.startIntake(),
@@ -87,6 +93,10 @@ public class TeleOpRobotController extends RobotControllerBase {
 
         new Trigger(this.shooterSubsystem::isFastEnough)
                 .whenActive(() -> this.actionController.gamepad.rumble(500));
+
+        new Trigger(() -> this.actionController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.5f)
+                .whileActiveContinuous(this.actuatorCommands.shootBallNow())
+                .whenInactive(this.actuatorCommands.returnToZero());
     }
 
     @Override

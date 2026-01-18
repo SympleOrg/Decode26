@@ -22,11 +22,11 @@ public class MecanumArcadeDriveCommand extends CommandBase {
     @Override
     public void execute() {
         double vSpeed = -this.gamepad.getLeftY();
-        double hSpeed = -this.gamepad.getLeftX();
+        double hSpeed = this.gamepad.getLeftX();
         double rotationSpeed = -this.gamepad.getRightX();
 
         Vector2d vector = new Vector2d(hSpeed, vSpeed)
-                .rotateBy(-this.subsystem.getHeading())
+                .rotateBy(this.subsystem.getHeading())
                 .times(this.subsystem.getDriveSpeedModifier().getSpeedModifier());
 
         MecanumChassisUtils.MecanumWheelSpeeds mecanumWheelSpeeds = MecanumChassisUtils.chassisSpeedToWheelSpeeds(vector, rotationSpeed);
