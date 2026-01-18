@@ -8,7 +8,6 @@ import com.seattlesolvers.solverslib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.RobotConstants.GateConstants;
 import org.firstinspires.ftc.teamcode.RobotConstants.StorageConstants;
 import org.firstinspires.ftc.teamcode.RobotConstants.ShooterConstants;
-import org.firstinspires.ftc.teamcode.RobotConstants;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
@@ -76,10 +75,11 @@ public class ActuatorCommands {
         );
     }
 
-    public Command toggleShooterMode() {
-        return this.shooterSubsystem.toggleStates(
-                RobotConstants.ShooterConstants.ShooterState.IDLE,
-                RobotConstants.ShooterConstants.ShooterState.SHOOT
-        );
+    public Command shooterGoIdle() {
+        return this.shooterSubsystem.goToState(ShooterConstants.ShooterState.IDLE);
+    }
+
+    public Command shooterGoShoot() {
+        return this.shooterSubsystem.goToState(ShooterConstants.ShooterState.SHOOT);
     }
 }

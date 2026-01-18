@@ -112,9 +112,9 @@ public class RobotConstants {
 
     public static class ShooterConstants {
         public enum ShooterState implements StateSubsystemBase.StateBase<Double> {
-            SHOOT(1),
+            SHOOT(0.75),
             OFF(0),
-            IDLE(0.5);
+            IDLE(0.4);
 
             private final double power;
 
