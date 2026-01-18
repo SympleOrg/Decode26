@@ -39,16 +39,16 @@ public class ActuatorCommands {
         return this.intakeSubsystem.stopIntake();
     }
 
-    public void pushTheBall() {
-        this.gateSubsystem.goToState(GateConstants.GateState.PUSH).schedule();
+    public Command pushTheBall() {
+        return this.gateSubsystem.goToState(GateConstants.GateState.PUSH);
     }
 
-    public void returnToZero() {
-        this.gateSubsystem.goToState(GateConstants.GateState.ZERO).schedule();
+    public Command returnToZero() {
+        return this.gateSubsystem.goToState(GateConstants.GateState.ZERO);
     }
 
-    public void storageGoToShooter() {
-        new ParallelCommandGroup(
+    public Command storageGoToShooter() {
+        return new ParallelCommandGroup(
                 this.intakeSubsystem.takeTheBall(),
                 new SequentialCommandGroup(
                         new WaitCommand(200),
@@ -60,13 +60,13 @@ public class ActuatorCommands {
                                 )
                         )
                 )
-        ).schedule();
+        );
     }
 
-    public void storageGoToIntake() {
-        new ParallelCommandGroup(
+    public Command storageGoToIntake() {
+        return new ParallelCommandGroup(
                 this.intakeSubsystem.stopIntake(),
                 this.storageSubsystem.goToState(StorageConstants.StorageState.INTAKE)
-        ).schedule();
+        );
     }
 }
