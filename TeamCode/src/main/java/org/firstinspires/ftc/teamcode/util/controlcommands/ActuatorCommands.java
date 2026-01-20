@@ -66,7 +66,10 @@ public class ActuatorCommands {
     public Command storageGoToShooter() {
         return new ParallelCommandGroup(
                 this.intakeSubsystem.takeTheBall(),
-                this.shooterSubsystem.goToState(ShooterConstants.ShooterState.SHOOT),
+                new SequentialCommandGroup(
+                        new WaitCommand(500),
+                        this.shooterSubsystem.goToState(ShooterConstants.ShooterState.SHOOT)
+                ),
                 new SequentialCommandGroup(
                         new WaitCommand(200),
                         new ParallelCommandGroup(
@@ -101,7 +104,7 @@ public class ActuatorCommands {
             new SequentialCommandGroup(
                 new WaitUntilCommand(this.shooterSubsystem::isFastEnough),
                 this.gateSubsystem.goToState(GateConstants.GateState.PUSH),
-                new WaitCommand(500),
+                new WaitUntilCommand(() -> !this.shooterSubsystem.isFastEnough()),
                 this.gateSubsystem.goToState(GateConstants.GateState.ZERO)
             ),
             new InstantCommand(),
