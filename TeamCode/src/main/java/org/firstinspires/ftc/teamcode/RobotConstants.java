@@ -124,7 +124,7 @@ public class RobotConstants {
         @Sorter(sort = 6) public static double Ka = 0.001;
 
         public enum ShooterState implements StateSubsystemBase.StateBase<Double> {
-            SHOOT(1250),
+             SHOOT(1200),
             OFF(0),
             IDLE(150);
 
