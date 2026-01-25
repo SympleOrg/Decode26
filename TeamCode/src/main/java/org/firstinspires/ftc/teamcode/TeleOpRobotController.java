@@ -85,12 +85,6 @@ public class TeleOpRobotController extends RobotControllerBase {
                         this.actuatorCommands.returnToZero()
                 );
 
-        this.actionController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .toggleWhenPressed(
-                        this.actuatorCommands.shooterGoIdle(),
-                        this.actuatorCommands.shooterGoShoot()
-                );
-
         new Trigger(this.shooterSubsystem::isFastEnough)
                 .whenActive(() -> this.actionController.gamepad.rumble(500));
 

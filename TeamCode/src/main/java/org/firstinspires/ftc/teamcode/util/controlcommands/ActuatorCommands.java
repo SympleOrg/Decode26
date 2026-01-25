@@ -91,14 +91,6 @@ public class ActuatorCommands {
         );
     }
 
-    public Command shooterGoIdle() {
-        return this.shooterSubsystem.goToState(ShooterConstants.ShooterState.IDLE);
-    }
-
-    public Command shooterGoShoot() {
-        return this.shooterSubsystem.goToState(ShooterConstants.ShooterState.SHOOT);
-    }
-
     public Command shootBallNow() {
         return new ConditionalCommand(
             new SequentialCommandGroup(
