@@ -96,7 +96,7 @@ public class RobotConstants {
     public static class GateConstants {
         public enum GateState implements StateSubsystemBase.StateBase<Double> {
             ZERO(0),
-            PUSH(107);
+            PUSH(109);
 
             private final double deg;
 
@@ -116,15 +116,15 @@ public class RobotConstants {
         @Sorter(sort = -1) public static double SHOOT_OFFSET_VEL = -50;
         @Sorter(sort = 0) public static long SHOOTER_DELAY = 200;
 
-        @Sorter(sort = 1) public static double Kp = 2.0;
-        @Sorter(sort = 2) public static double Ki = 0.002;
-        @Sorter(sort = 3) public static double Kd = 0.1;
-        @Sorter(sort = 4) public static double Ks = 0;
-        @Sorter(sort = 5) public static double Kv = 1.95;
-        @Sorter(sort = 6) public static double Ka = 0.001;
+        @Sorter(sort = 1) public static double Kp = 0.5;
+        @Sorter(sort = 2) public static double Ki = 0.05;
+        @Sorter(sort = 3) public static double Kd = 0;
+        @Sorter(sort = 4) public static double Ks = 230;
+        @Sorter(sort = 5) public static double Kv = 1.35;
+        @Sorter(sort = 6) public static double Ka = 0;
 
         public enum ShooterState implements StateSubsystemBase.StateBase<Double> {
-             SHOOT(1200),
+             SHOOT(1300),
             OFF(0),
             IDLE(150);
 
