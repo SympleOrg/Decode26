@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.subsystems.storage;
 
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.seattlesolvers.solverslib.command.Command;
+import com.seattlesolvers.solverslib.command.CommandScheduler;
+import com.seattlesolvers.solverslib.command.InstantCommand;
 import com.seattlesolvers.solverslib.command.Subsystem;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
@@ -52,6 +54,7 @@ public class StorageSubsystem extends StateSubsystemBase<StorageConstants.Storag
     }
 
     public void moveMotor(double power) {
+        if (power < 0 && this.getCurrentPosition() <= StorageConstants.MIN_LIMIT) return;
         this.motorEx.set(power);
     }
 

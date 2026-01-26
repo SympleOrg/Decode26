@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.seattlesolvers.solverslib.command.button.Trigger;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -60,6 +61,12 @@ public class TeleOpRobotController extends RobotControllerBase {
 
     @Override
     public void createKeyBindings() {
+        this.driverController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(this.driverCommands::setNormalSpeedMode);
+
+        this.driverController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed(this.driverCommands::setSlowSpeedMode);
+
         this.actionController.getGamepadButton(GamepadKeys.Button.X)
                 .toggleWhenPressed(
                         this.actuatorCommands.startIntake(),
@@ -78,11 +85,12 @@ public class TeleOpRobotController extends RobotControllerBase {
                         this.actuatorCommands.returnToZero()
                 );
 
-        this.actionController.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .toggleWhenPressed(
-                        this.actuatorCommands.shooterGoIdle(),
-                        this.actuatorCommands.shooterGoShoot()
-                );
+        new Trigger(this.shooterSubsystem::isFastEnough)
+                .whenActive(() -> this.actionController.gamepad.rumble(500));
+
+        new Trigger(() -> this.actionController.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.5f)
+                .whileActiveContinuous(this.actuatorCommands.shootBallNow())
+                .whenInactive(this.actuatorCommands.returnToZero());
     }
 
     @Override
