@@ -67,6 +67,9 @@ public class TeleOpRobotController extends RobotControllerBase {
         this.driverController.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(this.driverCommands::setSlowSpeedMode);
 
+        this.driverController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(this.driverCommands::resetRobotAngle);
+
         this.actionController.getGamepadButton(GamepadKeys.Button.X)
                 .toggleWhenPressed(
                         this.actuatorCommands.startIntake(),
