@@ -39,4 +39,8 @@ public class MathUtil {
     public static double encoderTicksToMeter(double ticks, double wheelRadius, double ticksPerRev, double gearRatio) {
         return (Math.PI * 2 * wheelRadius) / (ticksPerRev * gearRatio) * ticks;
     }
+
+    public static double metersToInch(double meter) {
+        return meter * 39.3700787402;
+    }
 }
