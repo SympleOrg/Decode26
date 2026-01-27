@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.util.controlcommands;
 
 import org.firstinspires.ftc.teamcode.RobotConstants.DriveConstants;
+import org.firstinspires.ftc.teamcode.managers.RobotPositionManager;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
@@ -36,5 +37,9 @@ public class DriverCommands {
 
     public void setNormalSpeedMode() {
         this.mecanumDriveSubsystem.setDriveSpeedModifier(DriveConstants.DriveSpeed.NORMAL);
+    }
+
+    public void resetRobotAngle() {
+        RobotPositionManager.getInstance().resetHeading();
     }
 }
