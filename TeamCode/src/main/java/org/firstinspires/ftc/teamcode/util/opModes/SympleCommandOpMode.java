@@ -67,6 +67,7 @@ public abstract class SympleCommandOpMode extends CommandOpMode {
             while (!isStopRequested() && opModeIsActive()) {
                 this.run(); // Call subclass run
                 robotController.run(); // Run robot logic
+                robotController.getPathFollower().update();
                 this.robotController.getTelemetry().update(); // Update telemetry
             }
 

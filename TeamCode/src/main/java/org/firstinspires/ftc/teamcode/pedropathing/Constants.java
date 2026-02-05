@@ -21,6 +21,7 @@ public class Constants {
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .xVelocity(62.133539031492184)
+            .yVelocity(44.498033906248956)
             .rightFrontMotorName(MotorMap.LEG_FRONT_RIGHT.getId())
             .rightRearMotorName(MotorMap.LEG_BACK_RIGHT.getId())
             .leftRearMotorName(MotorMap.LEG_BACK_LEFT.getId())
@@ -47,7 +48,9 @@ public class Constants {
             .IMU_Orientation(new RevHubOrientationOnRobot(RobotConstants.DriveConstants.LOGO_FACING_DIRECTION, RobotConstants.DriveConstants.USB_FACING_DIRECTION));
 
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(10.4);
+            .mass(10.4)
+            .forwardZeroPowerAcceleration(-26.35075469661182)
+            .forwardZeroPowerAcceleration(-57.845484293764414);
 
     public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
 

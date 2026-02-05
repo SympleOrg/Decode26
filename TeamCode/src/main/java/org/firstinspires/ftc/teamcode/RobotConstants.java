@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.configurables.annotations.Sorter;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
 import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
@@ -10,6 +11,10 @@ import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
  * Contains all robot-wide constants for the robot.
  */
 public class RobotConstants {
+
+    public static class AutoConstants {
+        public static Pose RED_GOAL_POSE = new Pose(111.123, 135.671);
+    }
 
     /**
      * Constants related to the robot's drivetrain.
