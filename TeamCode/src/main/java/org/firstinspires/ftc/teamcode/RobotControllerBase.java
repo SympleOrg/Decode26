@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.bylazar.camerastream.PanelsCameraStream;
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
+import com.pedropathing.follower.Follower;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.managers.RobotPositionManager;
+import org.firstinspires.ftc.teamcode.pedropathing.Constants;
 import org.firstinspires.ftc.teamcode.util.DataLogger;
 import org.firstinspires.ftc.teamcode.util.opModes.SympleCommandOpMode;
 
@@ -20,6 +22,7 @@ public abstract class RobotControllerBase {
     private final HardwareMap hardwareMap;
     private final JoinedTelemetry telemetry;
     private final DataLogger dataLogger;
+    private final Follower pathFollower;
 
     public RobotControllerBase(HardwareMap hMap, Telemetry telemetry, Gamepad driverController, Gamepad actionController, String logFilePrefix, boolean logData) {
         this.hardwareMap = hMap;
@@ -30,6 +33,8 @@ public abstract class RobotControllerBase {
 
         this.driverController = new GamepadEx(driverController);
         this.actionController = new GamepadEx(actionController);
+
+        this.pathFollower = Constants.createFollower(hardwareMap);
 
         // Reset the robot state
         this.dataLogger.addData(DataLogger.DataType.INFO, "RobotController: resetting robot");
@@ -100,6 +105,10 @@ public abstract class RobotControllerBase {
      */
     public DataLogger getDataLogger() {
         return dataLogger;
+    }
+
+    public Follower getPathFollower() {
+        return pathFollower;
     }
 
     protected static abstract class Builder {

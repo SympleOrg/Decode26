@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.configurables.annotations.Sorter;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
 import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
@@ -10,6 +11,10 @@ import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
  * Contains all robot-wide constants for the robot.
  */
 public class RobotConstants {
+
+    public static class AutoConstants {
+        public static Pose RED_GOAL_POSE = new Pose(111.123, 135.671);
+    }
 
     /**
      * Constants related to the robot's drivetrain.
@@ -120,13 +125,13 @@ public class RobotConstants {
         @Sorter(sort = 2) public static double Ki = 0.05;
         @Sorter(sort = 3) public static double Kd = 0;
         @Sorter(sort = 4) public static double Ks = 230;
-        @Sorter(sort = 5) public static double Kv = 1.35;
+        @Sorter(sort = 5) public static double Kv = 1.3;
         @Sorter(sort = 6) public static double Ka = 0;
 
         public enum ShooterState implements StateSubsystemBase.StateBase<Double> {
-             SHOOT(1300),
+            SHOOT(1300),
             OFF(0),
-            IDLE(150);
+            IDLE(0);
 
             private final double power;
 
