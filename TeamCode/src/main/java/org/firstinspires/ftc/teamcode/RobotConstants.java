@@ -12,6 +12,14 @@ import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
  */
 public class RobotConstants {
 
+    @Configurable
+    public static class FieldConstants {
+        public static Pose RED_GOAL_POSE = new Pose(0, 0);
+        public static Pose BLUE_GOAL_POSE = new Pose();
+
+        public static double GOAL_HEIGHT = 1;
+    }
+
     public static class AutoConstants {
         public static Pose RED_GOAL_POSE = new Pose(111.123, 135.671);
     }
@@ -19,6 +27,7 @@ public class RobotConstants {
     /**
      * Constants related to the robot's drivetrain.
      */
+    @Configurable
     public static class DriveConstants {
         /**
          * Number of encoder ticks per motor revolution.
@@ -117,32 +126,42 @@ public class RobotConstants {
     }
 
     @Configurable
-    public static class ShooterConstants {
-        @Sorter(sort = -1) public static double SHOOT_OFFSET_VEL = -50;
-        @Sorter(sort = 0) public static long SHOOTER_DELAY = 200;
+    public static class TurretConstants {
+        public static Pose TURRET_OFFSET = new Pose(0, 0);
+        public static double SHOOTER_HEIGHT = 0.3;
 
-        @Sorter(sort = 1) public static double Kp = 0.5;
-        @Sorter(sort = 2) public static double Ki = 0.05;
-        @Sorter(sort = 3) public static double Kd = 0;
-        @Sorter(sort = 4) public static double Ks = 230;
-        @Sorter(sort = 5) public static double Kv = 1.3;
-        @Sorter(sort = 6) public static double Ka = 0;
+        public static class Shooter {
+            @Sorter(sort = -3)
+            public static double SHOOT_OFFSET_VEL = -50;
+            @Sorter(sort = -2)
+            public static long SHOOTER_DELAY = 200;
 
-        public enum ShooterState implements StateSubsystemBase.StateBase<Double> {
-            SHOOT(1300),
-            OFF(0),
-            IDLE(0);
+            @Sorter(sort = -1)
+            public static double WHEEL_RADIUS = 0.048;
+            @Sorter(sort = 0)
+            public static double GEAR_RATIO = 1;
 
-            private final double power;
+            @Sorter(sort = 1)
+            public static double Kp = 0.5;
+            @Sorter(sort = 2)
+            public static double Ki = 0.05;
+            @Sorter(sort = 3)
+            public static double Kd = 0;
+            @Sorter(sort = 4)
+            public static double Ks = 230;
+            @Sorter(sort = 5)
+            public static double Kv = 1.3;
+            @Sorter(sort = 6)
+            public static double Ka = 0;
+        }
 
-            ShooterState(double power) {
-                this.power = power;
-            }
-
-            @Override
-            public Double getUnit() {
-                return this.power;
-            }
+        public static class Turret {
+            @Sorter(sort = 0)
+            public static double Kp = 0;
+            @Sorter(sort = 1)
+            public static double Ki = 0;
+            @Sorter(sort = 2)
+            public static double Kd = 0;
         }
     }
 }

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.pedropathing.Paths;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.shooter.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.turret.TurretSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
 import org.firstinspires.ftc.teamcode.util.TeamColor;
 import org.firstinspires.ftc.teamcode.util.controlcommands.ActuatorCommands;
@@ -25,7 +25,7 @@ public class AutoRobotController extends RobotControllerBase {
     private final IntakeSubsystem intakeSubsystem;
     private final GateSubsystem gateSubsystem;
     private final StorageSubsystem storageSubsystem;
-    private final ShooterSubsystem shooterSubsystem;
+    private final TurretSubsystem turretSubsystem;
 
     private final TeamColor teamColor;
 
@@ -40,7 +40,7 @@ public class AutoRobotController extends RobotControllerBase {
         this.intakeSubsystem = new IntakeSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
         this.storageSubsystem = new StorageSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
         this.gateSubsystem = new GateSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
-        this.shooterSubsystem = new ShooterSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
+        this.turretSubsystem = new TurretSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
 
         this.teamColor = teamColor;
 
@@ -49,7 +49,7 @@ public class AutoRobotController extends RobotControllerBase {
                 this.intakeSubsystem,
                 this.gateSubsystem,
                 this.storageSubsystem,
-                this.shooterSubsystem
+                this.turretSubsystem
         );
     }
 
@@ -68,9 +68,9 @@ public class AutoRobotController extends RobotControllerBase {
                             new FollowPathCommand(getPathFollower(), Paths.createRedPath(getPathFollower())),
                             new RepeatCommand(
                                     new SequentialCommandGroup(
-                                            new WaitUntilCommand(this.shooterSubsystem::isFastEnough),
+                                            new WaitUntilCommand(this.turretSubsystem::isFastEnough),
                                             this.gateSubsystem.goToState(RobotConstants.GateConstants.GateState.PUSH),
-                                            new WaitUntilCommand(() -> !this.shooterSubsystem.isFastEnough()),
+                                            new WaitUntilCommand(() -> !this.turretSubsystem.isFastEnough()),
                                             this.gateSubsystem.goToState(RobotConstants.GateConstants.GateState.ZERO)
                                     )
                             ).withTimeout(20_000)
