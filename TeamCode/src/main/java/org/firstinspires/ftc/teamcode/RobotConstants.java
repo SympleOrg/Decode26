@@ -83,45 +83,36 @@ public class RobotConstants {
         }
     }
 
-    @Configurable
     public static class StorageConstants {
-        @Sorter(sort = 0) public static double MIN_LIMIT = 0;
-        @Sorter(sort = 1) public static double kP = 0.02;
-        @Sorter(sort = 2) public static double kI = 0.0001;
-        @Sorter(sort = 3) public static double kD = 0;
+        @Sorter(sort = -1)
+        public static long TRANSFER_TIME = 250;
 
-        public enum StorageState implements StateSubsystemBase.StateBase<Double> {
-            SHOOTER(50),
-            INTAKE(0);
+        @Sorter(sort = 0)
+        public static double LOWER_STORAGE_SERVO_ANGLE = 0;
+        @Sorter(sort = 1)
+        public static double HIGHER_STORAGE_SERVO_ANGLE = 90;
 
-            private final double deg;
+        @Sorter(sort = 2)
+        public static double LOWER_SHOOTER_SERVO_ANGLE = 0;
+        @Sorter(sort = 3)
+        public static double HIGHER_SHOOTER_SERVO_ANGLE = 90;
 
-            StorageState(double deg){
-                this.deg = deg;
-            }
-
-            @Override
-            public Double getUnit() {
-                return this.deg;
-            }
+        public static class PurpleBall {
+            @Sorter(sort = 0)
+            public static double MIN_RED = 0;
+            @Sorter(sort = 1)
+            public static double MIN_GREEN = 0;
+            @Sorter(sort = 2)
+            public static double MIN_BLUE = 0;
         }
-    }
 
-    public static class GateConstants {
-        public enum GateState implements StateSubsystemBase.StateBase<Double> {
-            ZERO(0),
-            PUSH(109);
-
-            private final double deg;
-
-            GateState(double deg) {
-                this.deg = deg;
-            }
-
-            @Override
-            public Double getUnit() {
-                return this.deg;
-            }
+        public static class GreenBall {
+            @Sorter(sort = 0)
+            public static double MIN_RED = 0;
+            @Sorter(sort = 1)
+            public static double MIN_GREEN = 0;
+            @Sorter(sort = 2)
+            public static double MIN_BLUE = 0;
         }
     }
 

@@ -1,17 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.seattlesolvers.solverslib.command.button.Trigger;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.commands.mecanumDrive.MecanumArcadeDriveCommand;
-import org.firstinspires.ftc.teamcode.subsystems.gate.GateSubsystem;
-import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.turret.TurretSubsystem;
 import org.firstinspires.ftc.teamcode.util.TeamColor;
 import org.firstinspires.ftc.teamcode.util.controlcommands.ActuatorCommands;
@@ -21,7 +18,6 @@ import org.firstinspires.ftc.teamcode.util.opModes.SympleCommandOpMode;
 public class TeleOpRobotController extends RobotControllerBase {
     private final MecanumDriveSubsystem mecanumDriveSubsystem;
     private final IntakeSubsystem intakeSubsystem;
-    private final GateSubsystem gateSubsystem;
     private final StorageSubsystem storageSubsystem;
     private final TurretSubsystem turretSubsystem;
 
@@ -44,13 +40,11 @@ public class TeleOpRobotController extends RobotControllerBase {
         this.mecanumDriveSubsystem = new MecanumDriveSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
         this.intakeSubsystem = new IntakeSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
         this.storageSubsystem = new StorageSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
-        this.gateSubsystem = new GateSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
         this.turretSubsystem = new TurretSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
 
         this.driverCommands = new DriverCommands(
                 this.mecanumDriveSubsystem,
                 this.intakeSubsystem,
-                this.gateSubsystem,
                 this.storageSubsystem,
                 this.turretSubsystem
         );
@@ -58,7 +52,6 @@ public class TeleOpRobotController extends RobotControllerBase {
         this.actuatorCommands = new ActuatorCommands(
                 this.mecanumDriveSubsystem,
                 this.intakeSubsystem,
-                this.gateSubsystem,
                 this.storageSubsystem,
                 this.turretSubsystem
         );

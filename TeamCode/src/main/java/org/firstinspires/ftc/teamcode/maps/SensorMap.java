@@ -13,7 +13,8 @@ public enum SensorMap {
     DEAD_WHEEL_RIGHT(MotorMap.LEG_BACK_LEFT.getId()),
     DEAD_WHEEL_LEFT(MotorMap.LEG_FRONT_LEFT.getId()),
     DEAD_WHEEL_BACK(MotorMap.LEG_BACK_RIGHT.getId()),
-    STORAGE_TOUCH("storage_touch");
+    STORAGE_COLOR("storage_color"),
+    SHOOTER_COLOR("shooter_color");
 
 
     private final String id;
