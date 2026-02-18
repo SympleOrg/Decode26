@@ -71,7 +71,7 @@ public class TurretController {
 
         this.turretSubsystem.getTelemetry().addData("Required Hood Angle", Math.toDegrees(requiredAngle));
 
-        this.turretSubsystem.moveHood(Math.toDegrees(requiredAngle));
+        this.turretSubsystem.moveHood(Math.toDegrees(requiredAngle) / TurretConstants.Shooter.HOOD_GEAR_RATIO);
     }
 
     private double calculateHoodAngle(double distance) {

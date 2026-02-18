@@ -5,8 +5,6 @@ import com.bylazar.configurables.annotations.Sorter;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
-import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
-
 /**
  * Contains all robot-wide constants for the robot.
  */
@@ -122,10 +120,12 @@ public class RobotConstants {
         public static double SHOOTER_HEIGHT = 0.3;
 
         public static class Shooter {
-            @Sorter(sort = -5)
+            @Sorter(sort = -6)
             public static double HOOD_MIN_ANGLE = 10;
-            @Sorter(sort = -4)
+            @Sorter(sort = -5)
             public static double HOOD_MAX_ANGLE = 40;
+            @Sorter(sort = -4)
+            public static double HOOD_GEAR_RATIO = 40 / 355f;
 
             @Sorter(sort = -3)
             public static double SHOOT_OFFSET_VEL = -50;
@@ -135,7 +135,7 @@ public class RobotConstants {
             @Sorter(sort = -1)
             public static double WHEEL_RADIUS = 0.048;
             @Sorter(sort = 0)
-            public static double GEAR_RATIO = 1;
+            public static double SHOOTER_GEAR_RATIO = 1;
 
             @Sorter(sort = 1)
             public static double Kp = 0.5;

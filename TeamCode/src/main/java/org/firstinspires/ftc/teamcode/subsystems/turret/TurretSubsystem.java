@@ -4,15 +4,12 @@ import com.bylazar.telemetry.JoinedTelemetry;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.RunCommand;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
-import com.seattlesolvers.solverslib.controller.PIDController;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 
-import org.firstinspires.ftc.teamcode.RobotConstants.FieldConstants;
 import org.firstinspires.ftc.teamcode.RobotConstants.TurretConstants;
 import org.firstinspires.ftc.teamcode.maps.MotorMap;
 import org.firstinspires.ftc.teamcode.maps.ServoMap;
@@ -80,11 +77,11 @@ public class TurretSubsystem extends SubsystemBase implements LoggerSubsystem {
     }
 
     public static double ticksPerSecToMeterPerSec(double ticks) {
-        return MathUtil.encoderTicksToMeter(ticks, TurretConstants.Shooter.WHEEL_RADIUS, MotorMap.INTAKE.getTicksPerRev(), TurretConstants.Shooter.GEAR_RATIO);
+        return MathUtil.encoderTicksToMeter(ticks, TurretConstants.Shooter.WHEEL_RADIUS, MotorMap.INTAKE.getTicksPerRev(), TurretConstants.Shooter.SHOOTER_GEAR_RATIO);
     }
 
     public static double meterPerSecToTicksPerSec(double meters) {
-        return MathUtil.meterToEncoderTicks(meters, TurretConstants.Shooter.WHEEL_RADIUS, MotorMap.INTAKE.getTicksPerRev(), TurretConstants.Shooter.GEAR_RATIO);
+        return MathUtil.meterToEncoderTicks(meters, TurretConstants.Shooter.WHEEL_RADIUS, MotorMap.INTAKE.getTicksPerRev(), TurretConstants.Shooter.SHOOTER_GEAR_RATIO);
     }
 
     @Override
