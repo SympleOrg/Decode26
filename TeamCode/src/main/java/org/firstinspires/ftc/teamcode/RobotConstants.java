@@ -131,6 +131,11 @@ public class RobotConstants {
         public static double SHOOTER_HEIGHT = 0.3;
 
         public static class Shooter {
+            @Sorter(sort = -5)
+            public static double HOOD_MIN_ANGLE = 10;
+            @Sorter(sort = -4)
+            public static double HOOD_MAX_ANGLE = 40;
+
             @Sorter(sort = -3)
             public static double SHOOT_OFFSET_VEL = -50;
             @Sorter(sort = -2)
@@ -156,6 +161,11 @@ public class RobotConstants {
         }
 
         public static class Turret {
+            @Sorter(sort = -2)
+            public static double MIN_ANGLE = -200;
+            @Sorter(sort = -1)
+            public static double MAX_ANGLE = 200;
+
             @Sorter(sort = 0)
             public static double Kp = 0;
             @Sorter(sort = 1)

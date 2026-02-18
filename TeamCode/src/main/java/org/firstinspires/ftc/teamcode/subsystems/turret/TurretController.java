@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems.turret;
 
 import com.pedropathing.geometry.Pose;
 import com.seattlesolvers.solverslib.controller.PIDController;
+import com.seattlesolvers.solverslib.util.MathUtils;
 
 import org.firstinspires.ftc.teamcode.RobotConstants.FieldConstants;
 import org.firstinspires.ftc.teamcode.RobotConstants.TurretConstants;
@@ -41,6 +42,11 @@ public class TurretController {
         this.turretSubsystem.getTelemetry().addData("Turret Angle", this.turretSubsystem.getCurrentTurretAngle());
         this.turretSubsystem.getTelemetry().addData("Required Turret Angle", requiredAngle);
 
+        double angleRange = TurretConstants.Turret.MAX_ANGLE - TurretConstants.Turret.MIN_ANGLE;
+
+        if (requiredAngle > TurretConstants.Turret.MAX_ANGLE) requiredAngle -= angleRange;
+        if (requiredAngle < TurretConstants.Turret.MIN_ANGLE) requiredAngle += angleRange;
+
         this.setTurretAngle(requiredAngle);
         this.adjustTurretAngle();
     }
@@ -60,6 +66,7 @@ public class TurretController {
         Pose turretPose = this.getTurretFieldPose(robotPose);
 
         double requiredAngle = calculateHoodAngle(goalPose.distanceFrom(turretPose));
+        requiredAngle = MathUtils.clamp(requiredAngle, Math.toRadians(TurretConstants.Shooter.HOOD_MIN_ANGLE), Math.toRadians(TurretConstants.Shooter.HOOD_MAX_ANGLE));
         this.hoodAngle = requiredAngle;
 
         this.turretSubsystem.getTelemetry().addData("Required Hood Angle", Math.toDegrees(requiredAngle));
