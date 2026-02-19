@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.util.controlcommands;
 
+import com.seattlesolvers.solverslib.command.Command;
+
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
@@ -24,5 +26,11 @@ public class ActuatorCommands {
     }
 
     // Commands here /ᐠ｡ꞈ｡ᐟ\
+    public Command startIntake() {
+        return this.intakeSubsystem.takeTheBall();
+    }
 
+    public Command stopIntake() {
+        return this.intakeSubsystem.stopIntake();
+    }
 }

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.subsystems.driveTrain.commands.mecanumDriv
 import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.turret.TurretSubsystem;
+import org.firstinspires.ftc.teamcode.util.BallColor;
 import org.firstinspires.ftc.teamcode.util.TeamColor;
 import org.firstinspires.ftc.teamcode.util.controlcommands.ActuatorCommands;
 import org.firstinspires.ftc.teamcode.util.controlcommands.DriverCommands;
@@ -68,11 +69,14 @@ public class TeleOpRobotController extends RobotControllerBase {
         this.driverController.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(this.driverCommands::resetRobotAngle);
 
-//        this.actionController.getGamepadButton(GamepadKeys.Button.X)
-//                .toggleWhenPressed(
-//                        this.actuatorCommands.startIntake(),
-//                        this.actuatorCommands.stopIntake()
-//                );
+        this.actionController.getGamepadButton(GamepadKeys.Button.X)
+                .toggleWhenPressed(
+                        this.actuatorCommands.startIntake(),
+                        this.actuatorCommands.stopIntake()
+                );
+
+        this.actionController.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(() -> this.storageSubsystem.setBall(2, BallColor.NONE));
 //
 //        this.actionController.getGamepadButton(GamepadKeys.Button.Y)
 //                .toggleWhenPressed(

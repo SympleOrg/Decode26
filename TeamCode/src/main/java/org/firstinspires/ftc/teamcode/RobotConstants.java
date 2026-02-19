@@ -102,7 +102,7 @@ public class RobotConstants {
             @Sorter(sort = 0)
             public static double MIN_RED = 0;
             @Sorter(sort = 1)
-            public static double MIN_GREEN = 0;
+            public static double MIN_GREEN = 600;
             @Sorter(sort = 2)
             public static double MIN_BLUE = 0;
         }
@@ -112,7 +112,7 @@ public class RobotConstants {
             @Sorter(sort = 0)
             public static double MIN_RED = 0;
             @Sorter(sort = 1)
-            public static double MIN_GREEN = 0;
+            public static double MIN_GREEN = 600;
             @Sorter(sort = 2)
             public static double MIN_BLUE = 0;
         }

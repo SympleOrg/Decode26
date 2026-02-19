@@ -25,7 +25,8 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
     private final ColorSensor shooterColorSensor;
     private final ColorSensor storageColorSensor;
 
-    private boolean transferingToShooter = false;
+    private StorageState storageState;
+    private ShooterState shooterState;
     private final Timer indexerTimer;
     private final BallColor[] indexer;
 
@@ -38,6 +39,8 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
         this.shooterColorSensor = hardwareMap.get(ColorSensor.class, SensorMap.SHOOTER_COLOR.getId());
         this.storageColorSensor = hardwareMap.get(ColorSensor.class, SensorMap.STORAGE_COLOR.getId());
 
+        this.storageState = StorageState.IDLE;
+        this.shooterState = ShooterState.IDLE;
         this.indexerTimer = new Timer();
         this.indexer = new BallColor[] {BallColor.NONE, BallColor.NONE, BallColor.NONE};
 
@@ -47,43 +50,93 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
 
     @Override
     public void periodic() {
-        ColorRGBA storageColors = new ColorRGBA(storageColorSensor.red(), storageColorSensor.green(), storageColorSensor.blue(), storageColorSensor.alpha());
-        ColorRGBA shooterColors = new ColorRGBA(shooterColorSensor.red(), shooterColorSensor.green(), shooterColorSensor.blue(), shooterColorSensor.alpha());
-        BallColor storageBall = this.getBallColor(storageColors);
-        BallColor shooterBall = this.getBallColor(shooterColors);
 
-        // Run loop to transfer ball from intake to storage
-        if (indexerTimer.getElapsedTime() > StorageConstants.TRANSFER_TIME * 2) {
-            this.moveStorageServo(StorageConstants.LOWER_STORAGE_SERVO_ANGLE);
-        } else if (indexerTimer.getElapsedTime() > StorageConstants.TRANSFER_TIME) {
-            indexer[1] = indexer[0];
-            indexer[0] = BallColor.NONE;
+        double elapsed = indexerTimer.getElapsedTime();
+
+        ColorRGBA storageColors = new ColorRGBA(
+                storageColorSensor.red(),
+                storageColorSensor.green(),
+                storageColorSensor.blue(),
+                storageColorSensor.alpha());
+
+        ColorRGBA shooterColors = new ColorRGBA(
+                shooterColorSensor.red(),
+                shooterColorSensor.green(),
+                shooterColorSensor.blue(),
+                shooterColorSensor.alpha());
+
+        BallColor storageBall = getBallColor(storageColors);
+        BallColor shooterBall = getBallColor(shooterColors);
+
+        // Storage
+        switch (storageState) {
+
+            case IDLE:
+                if (storageBall != BallColor.NONE && indexer[0] == BallColor.NONE) {
+                    indexer[0] = storageBall;
+                }
+
+                if (indexer[0] != BallColor.NONE && indexer[1] == BallColor.NONE) {
+                    moveStorageServo(StorageConstants.HIGHER_STORAGE_SERVO_ANGLE);
+                    indexerTimer.resetTimer();
+                    storageState = StorageState.RAISING;
+                }
+                break;
+
+            case RAISING:
+                if (elapsed > StorageConstants.TRANSFER_TIME) {
+                    indexer[1] = indexer[0];
+                    indexer[0] = BallColor.NONE;
+                    storageState = StorageState.WAITING_TRANSFER;
+                }
+                break;
+
+            case WAITING_TRANSFER:
+                if (elapsed > StorageConstants.TRANSFER_TIME * 2) {
+                    moveStorageServo(StorageConstants.LOWER_STORAGE_SERVO_ANGLE);
+                    storageState = StorageState.LOWERING;
+                }
+                break;
+
+            case LOWERING:
+                if (elapsed > StorageConstants.TRANSFER_TIME * 3) {
+                    storageState = StorageState.IDLE;
+                }
+                break;
         }
 
-        if (shooterBall != BallColor.NONE && transferingToShooter) {
-            this.moveShooterServo(StorageConstants.LOWER_SHOOTER_SERVO_ANGLE);
-            indexer[2] = indexer[1];
-            indexer[1] = BallColor.NONE;
-            transferingToShooter = false;
-        }
+        // shooter
+        switch (shooterState) {
 
-        if (storageBall != BallColor.NONE && indexer[0] == BallColor.NONE) {
-            indexer[0] = storageBall;
-        }
+            case IDLE:
+                if (indexer[1] != BallColor.NONE && indexer[2] == BallColor.NONE) {
+                    moveShooterServo(StorageConstants.HIGHER_SHOOTER_SERVO_ANGLE);
+                    shooterState = ShooterState.RAISING;
+                }
+                break;
 
-        if (indexer[1] == BallColor.NONE && indexer[0] != BallColor.NONE && indexerTimer.getElapsedTime() > StorageConstants.TRANSFER_TIME * 2) {
-            this.moveStorageServo(StorageConstants.HIGHER_STORAGE_SERVO_ANGLE);
-            indexerTimer.resetTimer();
-        }
+            case RAISING:
+                if (shooterBall != BallColor.NONE) {
+                    indexer[2] = indexer[1];
+                    indexer[1] = BallColor.NONE;
 
-        if (indexer[2] == BallColor.NONE && indexer[1] != BallColor.NONE) {
-            this.moveShooterServo(StorageConstants.HIGHER_SHOOTER_SERVO_ANGLE);
-            transferingToShooter = true;
+                    moveShooterServo(StorageConstants.LOWER_SHOOTER_SERVO_ANGLE);
+                    shooterState = ShooterState.LOWERING;
+                }
+                break;
+
+            case LOWERING:
+                if (shooterBall == BallColor.NONE) {
+                    shooterState = ShooterState.IDLE;
+                }
+                break;
         }
 
         telemetry.addData("Storage Color Sensor RGBA", String.format("%s, %s, %s, %s", storageColors.red(), storageColors.green(), storageColors.blue(), storageColors.alpha()));
         telemetry.addData("Shooter Color Sensor RGBA", String.format("%s, %s, %s, %s", shooterColors.red(), shooterColors.green(), shooterColors.blue(), shooterColors.alpha()));
         telemetry.addData("Indexer Timer", indexerTimer.getElapsedTime());
+        telemetry.addData("Storage State", storageState);
+        telemetry.addData("Shooter State", shooterState);
         telemetry.addData("Storage Ball Type (Sensor)", storageBall.name());
         telemetry.addData("Shooter Ball Type (Sensor)", shooterBall.name());
         telemetry.addData("Indexer [0] Ball Type", indexer[0].name());
@@ -128,5 +181,19 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
     @Override
     public DataLogger getDataLogger() {
         return this.dataLogger;
+    }
+
+    private enum StorageState {
+        IDLE,
+        RAISING,
+        WAITING_TRANSFER,
+        LOWERING
+    }
+
+    private enum ShooterState {
+        IDLE,
+        RAISING,
+        WAITING_DETECTION,
+        LOWERING
     }
 }
