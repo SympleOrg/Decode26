@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystems.storage;
 
+import android.graphics.Color;
+
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.pedropathing.util.Timer;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -11,6 +14,7 @@ import org.firstinspires.ftc.teamcode.RobotConstants.StorageConstants;
 import org.firstinspires.ftc.teamcode.maps.SensorMap;
 import org.firstinspires.ftc.teamcode.maps.ServoMap;
 import org.firstinspires.ftc.teamcode.util.BallColor;
+import org.firstinspires.ftc.teamcode.util.ColorRGBA;
 import org.firstinspires.ftc.teamcode.util.DataLogger;
 import org.firstinspires.ftc.teamcode.util.SympleServo;
 import org.firstinspires.ftc.teamcode.util.subsystem.LoggerSubsystem;
@@ -18,9 +22,10 @@ import org.firstinspires.ftc.teamcode.util.subsystem.LoggerSubsystem;
 public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
     private final SympleServo shooterServo;
     private final SympleServo storageServo;
-    private final NormalizedColorSensor shooterColorSensor;
-    private final NormalizedColorSensor storageColorSensor;
+    private final ColorSensor shooterColorSensor;
+    private final ColorSensor storageColorSensor;
 
+    private boolean transferingToShooter = false;
     private final Timer indexerTimer;
     private final BallColor[] indexer;
 
@@ -29,9 +34,9 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
 
     public StorageSubsystem(HardwareMap hardwareMap, JoinedTelemetry telemetry, DataLogger dataLogger) {
         this.shooterServo = new SympleServo(hardwareMap, ServoMap.SHOOTER.getId(), 0, 300);
-        this.storageServo = new SympleServo(hardwareMap, ServoMap.SHOOTER.getId(), 0, 300);
-        this.shooterColorSensor = hardwareMap.get(NormalizedColorSensor.class, SensorMap.SHOOTER_COLOR.getId());
-        this.storageColorSensor = hardwareMap.get(NormalizedColorSensor.class, SensorMap.STORAGE_COLOR.getId());
+        this.storageServo = new SympleServo(hardwareMap, ServoMap.STORAGE.getId(), 0, 300);
+        this.shooterColorSensor = hardwareMap.get(ColorSensor.class, SensorMap.SHOOTER_COLOR.getId());
+        this.storageColorSensor = hardwareMap.get(ColorSensor.class, SensorMap.STORAGE_COLOR.getId());
 
         this.indexerTimer = new Timer();
         this.indexer = new BallColor[] {BallColor.NONE, BallColor.NONE, BallColor.NONE};
@@ -42,8 +47,10 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
 
     @Override
     public void periodic() {
-        BallColor storageBall = this.getBallColor(storageColorSensor.getNormalizedColors());
-        BallColor shooterBall = this.getBallColor(shooterColorSensor.getNormalizedColors());
+        ColorRGBA storageColors = new ColorRGBA(storageColorSensor.red(), storageColorSensor.green(), storageColorSensor.blue(), storageColorSensor.alpha());
+        ColorRGBA shooterColors = new ColorRGBA(shooterColorSensor.red(), shooterColorSensor.green(), shooterColorSensor.blue(), shooterColorSensor.alpha());
+        BallColor storageBall = this.getBallColor(storageColors);
+        BallColor shooterBall = this.getBallColor(shooterColors);
 
         // Run loop to transfer ball from intake to storage
         if (indexerTimer.getElapsedTime() > StorageConstants.TRANSFER_TIME * 2) {
@@ -53,10 +60,11 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
             indexer[0] = BallColor.NONE;
         }
 
-        if (shooterBall != BallColor.NONE) {
+        if (shooterBall != BallColor.NONE && transferingToShooter) {
             this.moveShooterServo(StorageConstants.LOWER_SHOOTER_SERVO_ANGLE);
             indexer[2] = indexer[1];
             indexer[1] = BallColor.NONE;
+            transferingToShooter = false;
         }
 
         if (storageBall != BallColor.NONE && indexer[0] == BallColor.NONE) {
@@ -70,8 +78,11 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
 
         if (indexer[2] == BallColor.NONE && indexer[1] != BallColor.NONE) {
             this.moveShooterServo(StorageConstants.HIGHER_SHOOTER_SERVO_ANGLE);
+            transferingToShooter = true;
         }
 
+        telemetry.addData("Storage Color Sensor RGBA", String.format("%s, %s, %s, %s", storageColors.red(), storageColors.green(), storageColors.blue(), storageColors.alpha()));
+        telemetry.addData("Shooter Color Sensor RGBA", String.format("%s, %s, %s, %s", shooterColors.red(), shooterColors.green(), shooterColors.blue(), shooterColors.alpha()));
         telemetry.addData("Indexer Timer", indexerTimer.getElapsedTime());
         telemetry.addData("Storage Ball Type (Sensor)", storageBall.name());
         telemetry.addData("Shooter Ball Type (Sensor)", shooterBall.name());
@@ -93,17 +104,17 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
         this.storageServo.set(deg);
     }
 
-    private BallColor getBallColor(NormalizedRGBA color) {
+    private BallColor getBallColor(ColorRGBA color) {
         if (
-                color.red >= StorageConstants.GreenBall.MIN_RED / 255f
-                && color.green >= StorageConstants.GreenBall.MIN_GREEN / 255f
-                && color.blue >= StorageConstants.GreenBall.MIN_BLUE / 255f
+                color.red() >= StorageConstants.GreenBall.MIN_RED
+                && color.green() >= StorageConstants.GreenBall.MIN_GREEN
+                && color.blue() >= StorageConstants.GreenBall.MIN_BLUE
         ) return BallColor.GREEN;
 
         if (
-                color.red >= StorageConstants.PurpleBall.MIN_RED / 255f
-                && color.green >= StorageConstants.PurpleBall.MIN_GREEN / 255f
-                && color.blue >= StorageConstants.PurpleBall.MIN_BLUE / 255f
+                color.red() >= StorageConstants.PurpleBall.MIN_RED
+                && color.green() >= StorageConstants.PurpleBall.MIN_GREEN
+                && color.blue() >= StorageConstants.PurpleBall.MIN_BLUE
         ) return BallColor.PURPLE;
 
         return BallColor.NONE;

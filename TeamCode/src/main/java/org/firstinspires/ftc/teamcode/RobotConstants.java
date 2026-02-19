@@ -8,8 +8,8 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 /**
  * Contains all robot-wide constants for the robot.
  */
+@Configurable
 public class RobotConstants {
-
     @Configurable
     public static class FieldConstants {
         public static Pose RED_GOAL_POSE = new Pose(0, 0);
@@ -18,6 +18,7 @@ public class RobotConstants {
         public static double GOAL_HEIGHT = 1;
     }
 
+    @Configurable
     public static class AutoConstants {
         public static Pose RED_GOAL_POSE = new Pose(111.123, 135.671);
     }
@@ -81,20 +82,22 @@ public class RobotConstants {
         }
     }
 
+    @Configurable
     public static class StorageConstants {
         @Sorter(sort = -1)
         public static long TRANSFER_TIME = 250;
 
         @Sorter(sort = 0)
-        public static double LOWER_STORAGE_SERVO_ANGLE = 0;
+        public static double LOWER_STORAGE_SERVO_ANGLE = 270;
         @Sorter(sort = 1)
-        public static double HIGHER_STORAGE_SERVO_ANGLE = 90;
+        public static double HIGHER_STORAGE_SERVO_ANGLE = 200;
 
         @Sorter(sort = 2)
-        public static double LOWER_SHOOTER_SERVO_ANGLE = 0;
+        public static double LOWER_SHOOTER_SERVO_ANGLE = 10;
         @Sorter(sort = 3)
-        public static double HIGHER_SHOOTER_SERVO_ANGLE = 90;
+        public static double HIGHER_SHOOTER_SERVO_ANGLE = 105;
 
+        @Configurable
         public static class PurpleBall {
             @Sorter(sort = 0)
             public static double MIN_RED = 0;
@@ -104,6 +107,7 @@ public class RobotConstants {
             public static double MIN_BLUE = 0;
         }
 
+        @Configurable
         public static class GreenBall {
             @Sorter(sort = 0)
             public static double MIN_RED = 0;
@@ -119,6 +123,7 @@ public class RobotConstants {
         public static Pose TURRET_OFFSET = new Pose(0, 0);
         public static double SHOOTER_HEIGHT = 0.3;
 
+        @Configurable
         public static class Shooter {
             @Sorter(sort = -6)
             public static double HOOD_MIN_ANGLE = 10;
@@ -151,6 +156,7 @@ public class RobotConstants {
             public static double Ka = 0;
         }
 
+        @Configurable
         public static class Turret {
             @Sorter(sort = -2)
             public static double MIN_ANGLE = -200;
