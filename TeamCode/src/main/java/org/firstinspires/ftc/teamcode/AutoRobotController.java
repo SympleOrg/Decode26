@@ -5,13 +5,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.command.Command;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.pedropathing.Trajectories;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.elevator.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.turret.TurretSubsystem;
 import org.firstinspires.ftc.teamcode.util.TeamColor;
-import org.firstinspires.ftc.teamcode.util.controlcommands.ActuatorCommands;
 import org.firstinspires.ftc.teamcode.util.opModes.SympleCommandOpMode;
 
 public class AutoRobotController extends RobotControllerBase {
@@ -23,11 +23,12 @@ public class AutoRobotController extends RobotControllerBase {
 
     private final TeamColor teamColor;
 
-    private final ActuatorCommands actuatorCommands;
+    private final Trajectories trajectories;
 
+    private final StartingPose startingPose;
     private Command autoCommand;
 
-    public AutoRobotController(HardwareMap hMap, Telemetry telemetry, Gamepad driverController, Gamepad actionController, String logFilePrefix, boolean logData, TeamColor teamColor) {
+    public AutoRobotController(HardwareMap hMap, Telemetry telemetry, Gamepad driverController, Gamepad actionController, String logFilePrefix, boolean logData, TeamColor teamColor, StartingPose startingPose) {
         super(hMap, telemetry, driverController, actionController, logFilePrefix, logData);
 
         this.mecanumDriveSubsystem = new MecanumDriveSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
@@ -37,8 +38,9 @@ public class AutoRobotController extends RobotControllerBase {
         this.elevatorSubsystem = new ElevatorSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
 
         this.teamColor = teamColor;
+        this.startingPose = startingPose;
 
-        this.actuatorCommands = new ActuatorCommands(
+        this.trajectories = new Trajectories(
                 this.mecanumDriveSubsystem,
                 this.intakeSubsystem,
                 this.storageSubsystem,
@@ -54,22 +56,24 @@ public class AutoRobotController extends RobotControllerBase {
 
     @Override
     public void initialize() {
-        if (this.teamColor == TeamColor.RED) {
-            getPathFollower().setStartingPose(RobotConstants.AutoConstants.RED_GOAL_POSE);
-//            this.autoCommand = new ParallelCommandGroup(
-//                    this.actuatorCommands.storageGoToShooter(),
-//                    new SequentialCommandGroup(
-//                            new FollowPathCommand(getPathFollower(), Paths.createRedPath(getPathFollower())),
-//                            new RepeatCommand(
-//                                    new SequentialCommandGroup(
-//                                            new WaitUntilCommand(this.turretSubsystem::isFastEnough),
-//                                            this.storageSubsystem.goToState(RobotConstants.GateConstants.GateState.PUSH),
-//                                            new WaitUntilCommand(() -> !this.turretSubsystem.isFastEnough()),
-//                                            this.storageSubsystem.goToState(RobotConstants.GateConstants.GateState.ZERO)
-//                                    )
-//                            ).withTimeout(20_000)
-//                    )
-//            );
+        if (this.teamColor == TeamColor.RED && this.startingPose == StartingPose.CLOSE_GOAL) {
+            getPathFollower().setStartingPose(RobotConstants.AutoConstants.RED_CLOSE_GOAL_POSE);
+            this.autoCommand = this.trajectories.createCloseRedTrajectory();
+        }
+
+        if (this.teamColor == TeamColor.RED && this.startingPose == StartingPose.FAR_GOAL) {
+            getPathFollower().setStartingPose(RobotConstants.AutoConstants.RED_FAR_GOAL_POSE);
+            this.autoCommand = this.trajectories.createFarRedTrajectory();
+        }
+
+        if (this.teamColor == TeamColor.BLUE && this.startingPose == StartingPose.CLOSE_GOAL) {
+            getPathFollower().setStartingPose(RobotConstants.AutoConstants.BLUE_CLOSE_GOAL_POSE);
+            this.autoCommand = this.trajectories.createCloseBlueTrajectory();
+        }
+
+        if (this.teamColor == TeamColor.BLUE && this.startingPose == StartingPose.FAR_GOAL) {
+            getPathFollower().setStartingPose(RobotConstants.AutoConstants.BLUE_FAR_GOAL_POSE);
+            this.autoCommand = this.trajectories.createFarBlueTrajectory();
         }
     }
 
@@ -93,8 +97,14 @@ public class AutoRobotController extends RobotControllerBase {
 
     }
 
+    public enum StartingPose {
+        CLOSE_GOAL,
+        FAR_GOAL
+    }
+
     public static class Builder extends RobotControllerBase.Builder {
         private TeamColor teamColor;
+        private StartingPose startingPose;
 
         public Builder() {
             this.logFilePrefix = "Auto";
@@ -111,10 +121,15 @@ public class AutoRobotController extends RobotControllerBase {
             return this;
         }
 
+        public Builder setStartingPose(StartingPose startingPose) {
+            this.startingPose = startingPose;
+            return this;
+        }
+
         @Override
         public AutoRobotController build() {
             if (teamColor == null) throw new IllegalArgumentException("No set team color!");
-            return new AutoRobotController(this.hardwareMap, this.telemetry, this.driverController, this.actionController, this.logFilePrefix, this.logData, this.teamColor);
+            return new AutoRobotController(this.hardwareMap, this.telemetry, this.driverController, this.actionController, this.logFilePrefix, this.logData, this.teamColor, this.startingPose);
         }
     }
 }

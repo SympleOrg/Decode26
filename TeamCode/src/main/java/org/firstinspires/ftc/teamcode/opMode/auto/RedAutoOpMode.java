@@ -13,6 +13,7 @@ public class RedAutoOpMode extends SympleCommandOpMode {
         this.robotController = new AutoRobotController.Builder()
                 .initializeDefaults(this)
                 .setTeamColor(TeamColor.RED)
+                .setStartingPose(AutoRobotController.StartingPose.CLOSE_GOAL)
                 .build();
     }
 }

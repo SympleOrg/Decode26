@@ -14,15 +14,25 @@ import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
 public class RobotConstants {
     @Configurable
     public static class FieldConstants {
+        @Sorter(sort = 0)
         public static Pose RED_GOAL_POSE = new Pose(0, 0);
+        @Sorter(sort = 1)
         public static Pose BLUE_GOAL_POSE = new Pose();
 
+        @Sorter(sort = 2)
         public static double GOAL_HEIGHT = 1;
     }
 
     @Configurable
     public static class AutoConstants {
-        public static Pose RED_GOAL_POSE = new Pose(111.123, 135.671);
+        @Sorter(sort = 0)
+        public static Pose RED_CLOSE_GOAL_POSE = new Pose(111.123, 135.671);
+        @Sorter(sort = 1)
+        public static Pose RED_FAR_GOAL_POSE = new Pose(111.123, 135.671);
+        @Sorter(sort = 2)
+        public static Pose BLUE_CLOSE_GOAL_POSE = new Pose(111.123, 135.671);
+        @Sorter(sort = 3)
+        public static Pose BLUE_FAR_GOAL_POSE = new Pose(111.123, 135.671);
     }
 
     /**
