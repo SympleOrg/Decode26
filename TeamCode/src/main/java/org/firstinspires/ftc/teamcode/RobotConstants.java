@@ -127,6 +127,8 @@ public class RobotConstants {
 
         @Configurable
         public static class Shooter {
+            @Sorter(sort = -7)
+            public static double HOOD_OFFSET = 0;
             @Sorter(sort = -6)
             public static double HOOD_MIN_ANGLE = 10;
             @Sorter(sort = -5)
@@ -135,7 +137,7 @@ public class RobotConstants {
             public static double HOOD_GEAR_RATIO = 40 / 355f;
 
             @Sorter(sort = -3)
-            public static double SHOOT_OFFSET_VEL = -50;
+            public static double SHOOT_OFFSET_VEL = -4050;
             @Sorter(sort = -2)
             public static long SHOOTER_DELAY = 200;
 
@@ -160,10 +162,12 @@ public class RobotConstants {
 
         @Configurable
         public static class Turret {
-            @Sorter(sort = -2)
+            @Sorter(sort = -3)
             public static double MIN_ANGLE = -200;
-            @Sorter(sort = -1)
+            @Sorter(sort = -2)
             public static double MAX_ANGLE = 200;
+            @Sorter(sort = -1)
+            public static double GEAR_RATIO = 54f / 159f;
 
             @Sorter(sort = 0)
             public static double Kp = 0;

@@ -61,7 +61,7 @@ public class TurretSubsystem extends SubsystemBase implements LoggerSubsystem {
     }
 
     protected double getCurrentTurretAngle() {
-        return MathUtil.ticksToDeg(this.turretMotor.getCurrentPosition(), MotorMap.TURRET.getTicksPerRev());
+        return MathUtil.ticksToDeg(this.turretMotor.getCurrentPosition(), MotorMap.TURRET.getTicksPerRev()) * TurretConstants.Turret.GEAR_RATIO;
     }
 
     protected void moveTurret(double power) {
