@@ -6,6 +6,7 @@ import com.seattlesolvers.solverslib.command.Command;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystems.driveTrain.MecanumDriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.elevator.ElevatorSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.storage.StorageSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.intake.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.turret.TurretSubsystem;
@@ -18,6 +19,7 @@ public class AutoRobotController extends RobotControllerBase {
     private final IntakeSubsystem intakeSubsystem;
     private final StorageSubsystem storageSubsystem;
     private final TurretSubsystem turretSubsystem;
+    private final ElevatorSubsystem elevatorSubsystem;
 
     private final TeamColor teamColor;
 
@@ -32,6 +34,7 @@ public class AutoRobotController extends RobotControllerBase {
         this.intakeSubsystem = new IntakeSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
         this.storageSubsystem = new StorageSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
         this.turretSubsystem = new TurretSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
+        this.elevatorSubsystem = new ElevatorSubsystem(this.getHardwareMap(), this.getTelemetry(), this.getDataLogger());
 
         this.teamColor = teamColor;
 
@@ -39,7 +42,8 @@ public class AutoRobotController extends RobotControllerBase {
                 this.mecanumDriveSubsystem,
                 this.intakeSubsystem,
                 this.storageSubsystem,
-                this.turretSubsystem
+                this.turretSubsystem,
+                this.elevatorSubsystem
         );
     }
 

@@ -16,7 +16,8 @@ public enum MotorMap {
     LEG_BACK_RIGHT("leg_back_right", 0, 312),
     INTAKE("intake", 0, 312),
     SHOOTER("shooter", 28, 6000),
-    TURRET("turret", 537.7, 312);
+    TURRET("turret", 537.7, 312),
+    ELEVATOR("elevator", 537.7, 312);
 
 
     private final String id;

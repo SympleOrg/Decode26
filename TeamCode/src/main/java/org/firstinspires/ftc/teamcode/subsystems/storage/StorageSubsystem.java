@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems.storage;
 
-import android.graphics.Color;
-
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 
@@ -27,6 +23,7 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
 
     private StorageState storageState;
     private ShooterState shooterState;
+    private boolean isReadyToReload;
     private final Timer indexerTimer;
     private final BallColor[] indexer;
 
@@ -43,6 +40,8 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
         this.shooterState = ShooterState.IDLE;
         this.indexerTimer = new Timer();
         this.indexer = new BallColor[] {BallColor.NONE, BallColor.NONE, BallColor.NONE};
+
+        this.isReadyToReload = indexer[2] == BallColor.NONE;
 
         this.dataLogger = dataLogger;
         this.telemetry = telemetry;
@@ -109,7 +108,7 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
         switch (shooterState) {
 
             case IDLE:
-                if (indexer[1] != BallColor.NONE && indexer[2] == BallColor.NONE) {
+                if (indexer[1] != BallColor.NONE && indexer[2] == BallColor.NONE && isReadyToReload) {
                     moveShooterServo(StorageConstants.HIGHER_SHOOTER_SERVO_ANGLE);
                     shooterState = ShooterState.RAISING;
                 }
@@ -137,6 +136,7 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
         telemetry.addData("Indexer Timer", indexerTimer.getElapsedTime());
         telemetry.addData("Storage State", storageState);
         telemetry.addData("Shooter State", shooterState);
+        telemetry.addData("Is Ready To Reload", isReadyToReload);
         telemetry.addData("Storage Ball Type (Sensor)", storageBall.name());
         telemetry.addData("Shooter Ball Type (Sensor)", shooterBall.name());
         telemetry.addData("Indexer [0] Ball Type", indexer[0].name());
@@ -144,9 +144,19 @@ public class StorageSubsystem extends SubsystemBase implements LoggerSubsystem {
         telemetry.addData("Indexer [2] Ball Type", indexer[2].name());
     }
 
+    public void setReloadStatus(boolean ready) {
+        this.isReadyToReload = ready;
+    }
+
     public void setBall(int index, BallColor ballColor) {
+       this.setBall(index, ballColor, false);
+    }
+
+    public void setBall(int index, BallColor ballColor, boolean updateReloadStatus) {
         if (index < 0 || index >= indexer.length) throw new RuntimeException(String.format("Index must be between 0 and %s", indexer.length - 1));
         this.indexer[index] = ballColor;
+
+        this.isReadyToReload = indexer[2] == BallColor.NONE;
     }
 
     private void moveShooterServo(double deg) {

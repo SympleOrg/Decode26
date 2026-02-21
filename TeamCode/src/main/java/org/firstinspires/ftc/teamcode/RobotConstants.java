@@ -5,6 +5,8 @@ import com.bylazar.configurables.annotations.Sorter;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
+import org.firstinspires.ftc.teamcode.util.subsystem.StateSubsystemBase;
+
 /**
  * Contains all robot-wide constants for the robot.
  */
@@ -169,6 +171,38 @@ public class RobotConstants {
             public static double Ki = 0;
             @Sorter(sort = 2)
             public static double Kd = 0;
+        }
+    }
+
+    @Configurable
+    public static class ElevatorConstants {
+        @Sorter(sort = -2)
+        public static double WHEEL_RADIUS = 0.032;
+        @Sorter(sort = -1)
+        public static double GEAR_RATIO = 1;
+
+        @Sorter(sort = 0)
+        public static double Kp = 0;
+        @Sorter(sort = 1)
+        public static double Ki = 0;
+        @Sorter(sort = 2)
+        public static double Kd = 0;
+
+        public enum ElevatorStates implements StateSubsystemBase.StateBase<Double> {
+            INTAKE(0),
+            SHOOTER(0.17);
+
+            private final double meters;
+
+
+            ElevatorStates(double meters) {
+                this.meters = meters;
+            }
+
+            @Override
+            public Double getUnit() {
+                return this.meters;
+            }
         }
     }
 }
